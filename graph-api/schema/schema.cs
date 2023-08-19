@@ -6,5 +6,6 @@ public class OrderSchema : GraphQL.Types.Schema
   {
     Query = serviceProvider.GetRequiredService<Queries>();
     Mutation = serviceProvider.GetRequiredService<Mutations>();
+    Subscription = serviceProvider.GetRequiredService<Subscriptions>();
   }
 }

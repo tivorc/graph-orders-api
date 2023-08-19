@@ -1,6 +1,6 @@
 using GraphApi.Dto;
-using GraphApi.Inputs;
 using GraphApi.Models;
+using GraphApi.Services;
 using GraphQL;
 
 namespace GraphApi.Resolvers;
@@ -21,6 +21,8 @@ public class OrderResolver
       var order = context.GetArgument<OrderDto>("order");
 
       var result = new Order(Guid.NewGuid(), order.Name, order.Description, order.Total);
-      return Task.FromResult(result);
+      var service = context.RequestServices!.GetRequiredService<OrderService>();
+
+      return service.Execute(result);
     };
 }
