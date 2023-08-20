@@ -29,4 +29,4 @@ app.UseCors();
 app.UseWebSockets();
 app.UseGraphQL<OrderSchema>("/api/graphql");
 
-app.Run();
+await app.RunAsync();

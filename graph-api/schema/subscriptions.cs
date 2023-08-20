@@ -15,15 +15,14 @@ public class Subscriptions : ObjectGraphType
     _orderService = orderService;
     AddField(new FieldType
     {
-      Name = "order",
+      Name = "orderAdded",
       Type = typeof(OrderNotificationType),
       StreamResolver = new SourceStreamResolver<OrderNotification>(Subscribe),
     });
   }
 
-  private IObservable<OrderNotification?> Subscribe(IResolveFieldContext context)
+  private IObservable<OrderNotification> Subscribe(IResolveFieldContext context)
   {
-    Console.WriteLine("Subscribed to order");
     return _orderService.SubscribeEvents();
   }
 }
