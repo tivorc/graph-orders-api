@@ -1,4 +1,3 @@
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using GraphApi.Models;
 
@@ -6,22 +5,18 @@ namespace GraphApi.Services;
 
 public class OrderService
 {
-  private readonly ISubject<OrderNotification> _orderStream = new ReplaySubject<OrderNotification>(1);
+  private readonly Subject<OrderNotification> _broadcaster = new();
 
   public async Task<Order> Execute(Order order)
   {
     var orderNotification = GenerateOrderNotification(order);
 
-    _orderStream.OnNext(orderNotification);
+    _broadcaster.OnNext(orderNotification);
     
     return await Task.FromResult(order);
   }
 
-  public async ValueTask<IObservable<OrderNotification>> Notifications()
-  {
-    await Task.Delay(100).ConfigureAwait(false);
-    return _orderStream.AsObservable();
-  }
+  public IObservable<OrderNotification> SubscribeEvents() => _broadcaster;
 
   public OrderNotification GenerateOrderNotification(Order order)
   {

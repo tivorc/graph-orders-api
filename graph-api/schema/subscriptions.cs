@@ -17,12 +17,12 @@ public class Subscriptions : ObjectGraphType
     {
       Name = "order",
       Type = typeof(OrderNotificationType),
-      StreamResolver = new SourceStreamResolver<OrderNotification>(SubscribeAsync),
+      StreamResolver = new SourceStreamResolver<OrderNotification>(Subscribe),
     });
   }
 
-  private async ValueTask<IObservable<OrderNotification?>> SubscribeAsync(IResolveFieldContext context)
+  private IObservable<OrderNotification?> Subscribe(IResolveFieldContext context)
   {
-    return await _orderService.Notifications().ConfigureAwait(false);
+    return _orderService.SubscribeEvents();
   }
 }
