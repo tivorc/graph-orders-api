@@ -13,16 +13,11 @@ builder.Services.AddGraphQL(b => b // GraphQL.Server.Transports.AspNetCore
   .AddGraphTypes(typeof(OrderSchema).Assembly)
 );
 
-// builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddCors(options =>
 {
   options.AddDefaultPolicy(builder =>
   {
-    builder
-      .AllowAnyOrigin()
-      .AllowAnyMethod()
-      .AllowAnyHeader();
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
   });
 });
 
@@ -30,8 +25,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-// app.UseHttpsRedirection();
-
+app.UseHttpsRedirection();
 app.UseCors();
 app.UseWebSockets();
 app.UseGraphQL<OrderSchema>("/api/graphql");
