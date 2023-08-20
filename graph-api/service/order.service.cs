@@ -11,6 +11,7 @@ public class OrderService
   {
     var orderNotification = GenerateOrderNotification(order);
 
+    Console.WriteLine($"Order {order.Id} created");
     _broadcaster.OnNext(orderNotification);
     
     return await Task.FromResult(order);

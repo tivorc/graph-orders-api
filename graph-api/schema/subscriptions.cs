@@ -23,6 +23,7 @@ public class Subscriptions : ObjectGraphType
 
   private IObservable<OrderNotification?> Subscribe(IResolveFieldContext context)
   {
+    Console.WriteLine("Subscribed to order");
     return _orderService.SubscribeEvents();
   }
 }
