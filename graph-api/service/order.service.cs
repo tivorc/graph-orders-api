@@ -19,7 +19,8 @@ public class OrderService
 
   public async ValueTask<IObservable<OrderNotification>> Notifications()
   {
-    return await Task.FromResult(_orderStream.AsObservable());
+    await Task.Delay(100).ConfigureAwait(false);
+    return _orderStream.AsObservable();
   }
 
   public OrderNotification GenerateOrderNotification(Order order)
