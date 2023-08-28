@@ -7,22 +7,29 @@ namespace GraphApi.Resolvers;
 
 public class OrderResolver
 {
-  public static Func<IResolveFieldContext, Task<Order>> getOrder = (context) =>
+  public static Func<IResolveFieldContext, Task<Order?>> getOrder = (context) =>
     {
       var orderId = context.GetArgument<Guid>("id");
+      var service = context.RequestServices!.GetRequiredService<OrderService>();
 
-      var order = new Order(orderId, "Order 1", "Description 1", 100);
+      return service.GetOrder(orderId);
+    };
 
-      return Task.FromResult(order);
+  public static Func<IResolveFieldContext, Task<List<Order>>> getOrders = (context) =>
+    {
+      var date = context.GetArgument<DateTime>("date");
+
+      var service = context.RequestServices!.GetRequiredService<OrderService>();
+
+      return service.GetOrders(date);
     };
 
   public static Func<IResolveFieldContext, Task<Order>> saveOrder = (context) =>
     {
       var order = context.GetArgument<OrderDto>("order");
 
-      var result = new Order(Guid.NewGuid(), order.Name, order.Description, order.Total);
       var service = context.RequestServices!.GetRequiredService<OrderService>();
 
-      return service.Execute(result);
+      return service.Execute(order.ToEntity());
     };
 }

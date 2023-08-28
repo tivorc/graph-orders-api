@@ -9,5 +9,6 @@ public class OrderInputType : InputObjectGraphType
     Field<NonNullGraphType<StringGraphType>>("name");
     Field<NonNullGraphType<StringGraphType>>("description");
     Field<NonNullGraphType<DecimalGraphType>>("total");
+    Field<NonNullGraphType<StringGraphType>>("waiterId");
   }
 }
